@@ -20,7 +20,7 @@ from sqlalchemy.orm import (
 
 
 DB_URL = "sqlite:///homework-01.db"
-DB_ECHO = True
+DB_ECHO = False
 engine = create_engine(url=DB_URL, echo=DB_ECHO)
 
 session_factory = sessionmaker(bind=engine)
@@ -88,8 +88,8 @@ def query_all_courses(session: SessionType) -> [Course]:
     return courses
 
 
-def query_all_courses_by_author_id(session: SessionType, author_id: str) -> [Course]:
-    courses_one_user = session.query(User).filter_by(author_id=author_id).all()
+def query_all_courses_by_author_id(session: SessionType, author_id: int) -> [Course]:
+    courses_one_user = session.query(Course).filter_by(author_id=author_id).all()
     return courses_one_user
 
 
@@ -100,25 +100,19 @@ def create_user(session: SessionType, first_name: str, last_name: str, abstract:
     return user
 
 
-def create_course(session: SessionType, author_id: str, course_name: str, description: str, label: str) -> Course:
+def create_course(session: SessionType, author_id: int, course_name: str, description: str, label: str) -> Course:
     course = Course(author_id=author_id, course_name=course_name, description=description, label=label)
     session.add(course)
     session.commit()
     return course
 
 
-# def main():
-#     # Base.metadata.create_all()
-#     session: SessionType = Session()
-#
-#     # query_all_users(session)
-#     query_user_by_first_name_and_last_name(session, "test", "test")
-#     # create_user(session, "test", "test", "sttsts")
-#     session.close()
-#
-#
-# if __name__ == '__main__':
-#     main()
+def main():
+    pass
+
+
+if __name__ == '__main__':
+    main()
 
 
 
